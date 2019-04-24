@@ -22,6 +22,10 @@ public class Lanza_guisantes extends Planta{
         this.setFrecuencia(1);
     }
     @Override
+    public String toString(){
+        return "L("+this.getVidas()+")";
+    }
+    @Override
     public void takeDaño(int daño){
         this.setVidas(this.getVidas()-daño);
     }

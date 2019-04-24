@@ -7,7 +7,7 @@ package plantsvszombies;
 
 /**
  *
- * @author Miguel
+ * @author Miguel y 
  */
 public class ZombieComun extends Zombies{
     public ZombieComun(int x, int y){
@@ -16,6 +16,7 @@ public class ZombieComun extends Zombies{
         this.setComportamiento("Avanza y come plantas");
         this.setVelocidad(2);//Cada cuantos turnos avanza una casilla
         this.setVida(5);//Puntos de vida que tiene
+        this.impresion="Z("+this.getVida()+")";
         
     }
     public boolean Avanzar(){

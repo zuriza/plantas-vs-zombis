@@ -35,8 +35,6 @@ public class PlantsVSZombies {
                 
             }else if(tipo_orden.equalsIgnoreCase(ordenes.N.toString())){
                 
-                partida_empezada=true;
-                
                 int x=Integer.parseInt(mensage.substring(2, 3));
                 
                 int y=Integer.parseInt(mensage.substring(4,5));

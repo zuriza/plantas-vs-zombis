@@ -32,7 +32,10 @@ public class Girasol extends Planta{
         }
         
     }
-   
+    @Override
+    public String toString(){
+        return "G("+this.getVidas()+")";
+    }
     @Override
     public void takeDaño(int daño){
         this.setVidas(this.getVidas()-daño);
