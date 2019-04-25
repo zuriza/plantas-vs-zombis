@@ -13,15 +13,10 @@ import java.util.*;
  */
 public class Partida {
     private enum orden{
-        L,G,S,AYUDA{
+        L,G,S,AYUDA,ENTER{
             @Override
             public String toString(){
-                return"A";
-            }
-        },ENTER{
-            @Override
-            public String toString(){
-                return "E";
+                return "";
             }
         }
     }
@@ -60,17 +55,20 @@ public class Partida {
             
             while(true){
                 String mensage=entrada.nextLine();
-                String ord= mensage.substring(0, 1);
-                if (ord.equalsIgnoreCase(orden.ENTER.toString())){
+                String[] ord= mensage.split(" ");
+                if (ord[0].equalsIgnoreCase(orden.ENTER.toString())){
                 
                     break;   
                 
-                }else if(ord.equalsIgnoreCase(orden.L.toString())){  
+                }else if(ord[0].equalsIgnoreCase(orden.L.toString())){  
+                    try{
                     if(lanzagcol==false&&soles>=Lanza_guisantes.coste){
-                        soles=soles-Lanza_guisantes.coste;
+                        
                         
                         int x=Integer.parseInt(mensage.substring(2, 3));
-                
+                        if(x==tablero.getX()-1){
+                            throw (new ExcepcionPlanta());
+                        }
                         int y=Integer.parseInt(mensage.substring(4,5));
                         
                         Lanza_guisantes lanzag= new Lanza_guisantes(x,y);
@@ -79,41 +77,70 @@ public class Partida {
                         
                         lanza_guisantes.add(lanzag);
                         if(insertado==true){
-                            
+                        soles=soles-Lanza_guisantes.coste;    
                         lanzagcol=true;
                         }
                     }else{
                         System.out.println("No se puede colocar el lanzaguisantes");
-                    }   
+                    }
+                    }catch(StringIndexOutOfBoundsException c){
+                        System.out.println("Orden no validaº\n"
+                                + "Formato: L <x> <y>");
+                 
+                    }catch(ArrayIndexOutOfBoundsException d){
+                        System.out.println("Orden no valida\n"
+                                + "Tablero demasiado pequeño");
+                    }catch(NumberFormatException e){
+                        System.out.println("Orden no valida necesaria posicion");
+                    }catch(ExcepcionPlanta a){
+                        System.out.println("Orden no valida;\nLas plantas no "
+                                + "pueden colocarse en la ultima columna");
+                    }  
                 
-                }else if(ord.equalsIgnoreCase(orden.AYUDA.toString())){
+                }else if(ord[0].equalsIgnoreCase(orden.AYUDA.toString())){
                     
                     System.out.println("Colocar Lanzaguisantes: L <x> <y>\n"
                         +"Colocar girasol: G <x> <y>\n"
                         +"Terminar turno: ENTER\n"
                         + "Salir: S \n ");
-                }else if(ord.equalsIgnoreCase(orden.G.toString())){
-                   if (girasolcol==false&&soles>Girasol.coste){ 
-                        soles= soles-Girasol.coste;
+                }else if(ord[0].equalsIgnoreCase(orden.G.toString())){
+                    try{
+                        if (girasolcol==false&&soles>Girasol.coste){ 
+                            soles= soles-Girasol.coste;
                        
-                        int x=Integer.parseInt(mensage.substring(2, 3));
-                
-                        int y=Integer.parseInt(mensage.substring(4,5));
+                            int x=Integer.parseInt(mensage.substring(2, 3));
+                            if(x==tablero.getX()){
+                                throw(new ExcepcionPlanta());
+                            }
+                            int y=Integer.parseInt(mensage.substring(4,5));
                         
-                        Girasol girasol= new Girasol(x,y);
+                            Girasol girasol= new Girasol(x,y);
                         
-                        boolean insertado=tablero.InsertarObjeto(girasol);
+                            boolean insertado=tablero.InsertarObjeto(girasol);
                         
                         girasoles.add(girasol);
-                        if(insertado==true){
-                            girasolcol=true;
-                        }
+                            if(insertado==true){
+                                girasolcol=true;
+                            }
                        
-                   }else{
-                       System.out.println("Ya se ha colocado un girasol este turno");
-                   }
+                        }else{
+                            System.out.println("Ya se ha colocado un girasol este turno");
+                        }
+                    }catch(StringIndexOutOfBoundsException c){
+                        System.out.println("Orden no valida\n"
+                                + "Formato: G <x> <y>");
+                 
+                    }catch(ArrayIndexOutOfBoundsException d){
+                        System.out.println("Orden no valida\n"
+                                + "Tablero demasiado pequeño");
+                    }catch(NumberFormatException e){
+                        System.out.println("Orden no valida necesaria posicion");
+                    }catch(ExcepcionPlanta a){
+                        System.out.println("Orden no valida\n"
+                                + "Las plantas no pueden colocarse en la ultima columna");
+                    }
                 
-                }else if(ord.equalsIgnoreCase(orden.S.toString())){
+                }else if(ord[0].equalsIgnoreCase(orden.S.toString())){
                     corriendo=false;
                     break;
                 }else{
