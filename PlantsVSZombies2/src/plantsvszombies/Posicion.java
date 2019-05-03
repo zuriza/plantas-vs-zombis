@@ -1,34 +1,60 @@
-/*
- * Clase principal para crear el tablero
- * 
- * 
- */
+
 package plantsvszombies;
 
 /**
  *
  * @author Miguel y Ricardo
  */
+/**
+ * Clase principal para crear el tablero
+ * 
+ * 
+ */
 public class Posicion {
     
-    private int x;/** crea una posición X */
-    private int y;/** crea una posicion Y */
+    /** crea una posición X 
+     * 
+     */
+    private int x;
+    /** crea una posicion Y 
+     * 
+     */
+    private int y;
     String impresion="    ";
     /** contructor de la posiciones */
     public Posicion(int x, int y){
         this.x=x;
         this.y=y;
     }
-    /** todos los métodos set y get */
+    /**  método get 
+     * 
+     * @return 
+     */
     public int getX(){
         return x;
     }
+    /**
+     * método get
+     * @return 
+     */
+      /**
+     * 
+     * @return 
+     */
     public int getY(){
         return y;
     }
+    /**
+     * método set
+     * @param x 
+     */
     public void setX(int x){
         this.x=x;
     }
+    /**
+     * método set
+     * @param y 
+     */
     public void setY(int y){
         this.y=y;
     }

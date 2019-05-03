@@ -7,6 +7,9 @@ import java.util.Scanner;
  *
  * @author Miguel y Ricardo
  */
+/** inicio del programa
+ * 
+ */
 public class PlantsVSZombies {
     /**
      * iniciamos 2 variables de tipo enum para reducir los errores del programa y para
@@ -15,9 +18,9 @@ public class PlantsVSZombies {
     enum dificultad{FACIL,MEDIA,ALTA,IMPOSIBLE};
     enum ordenes{N,S,AYUDA};
     
-    /**
+    /**El procedimiento main donde ejecutará todas nuestras ordenes
      * @param args the command line arguments
-     * El procedimiento main donde ejecutará todas nuestras ordenes
+     * 
      */
     public static void main(String[] args) {
         /**

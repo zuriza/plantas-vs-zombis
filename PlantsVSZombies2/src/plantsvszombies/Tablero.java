@@ -1,21 +1,41 @@
-/*
- * Tablero donde se almacena el estado del juego.
- * 
- * 
- */
+
 package plantsvszombies;
 
 /**
  *
  * @author Miguel y Ricardo
  */
+/**
+ * Tablero donde se almacena el estado del juego.
+ * 
+ * 
+ */
 public class Tablero {
-    private final Posicion tablero[][];//Array donde se guardan los objetos
-    private String linea_arriba;//String que almacena la linea superior del tablero
-    private final int x;//Anchura del tablero
-    private final int y;//Altura del tablero
-    private int nZombies;//Numero de zombies por salir
-    // Constructor quue se usará para crear el tablero
+    /**Array donde se guardan los objetos
+     * 
+     */
+    private final Posicion tablero[][];
+    /**String que almacena la linea superior del tablero
+     * 
+     */
+    private String linea_arriba;
+    /**Anchura del tablero
+     * 
+     */
+    private final int x;
+    /**Altura del tablero
+     * 
+     */
+    private final int y;
+    /**Numero de zombies por salir
+     * 
+     */
+    private int nZombies;
+    /**Constructor quue se usará para crear el tablero
+     * 
+     * @param x
+     * @param y 
+     */
     public Tablero(int x,int y){
         tablero= new Posicion[x][y];
         this.x=x;
@@ -25,21 +45,31 @@ public class Tablero {
         
         
     }
-    private void LlenarTablero(){//Llena el tablero de posiciones
+    /**Llena el tablero de posiciones
+     * 
+     */
+    private void LlenarTablero(){
         for (int i = 0; i < x; i++) {
             for (int j = 0; j < y; j++) {
                 tablero[i][j]=new Posicion(i,j);
             }
         }
     }
-    private void CrearLineaArriba(int x){//Crea la linea superior
+    /**Crea la linea superior
+     * 
+     * @param x 
+     */
+    private void CrearLineaArriba(int x){
         linea_arriba="|";
         for (int i = 0; i < x; i++) {
             linea_arriba+="------";
         }
         linea_arriba+="|";
     }
-    public void ImprimirTabliero(){//Imprime el tablero
+    /**Imprime el tablero
+     * 
+     */
+    public void ImprimirTabliero(){
         System.out.println(linea_arriba);
         for (int i = 0; i < y; i++) {
             System.out.print("| ");
@@ -52,14 +82,25 @@ public class Tablero {
         System.out.println(linea_arriba);    
         }
     }
-    // métodos get
+    /**método get
+     * 
+     * @return 
+     */
     public int getX(){
         return x;
     }
+     /**método get
+      * 
+      * @return 
+      */
     public int getY(){
         return y;
     }
-    // función para imprimir los objetos dentro del tablero e indicar cuando ya está ocupado
+    /** función para imprimir los objetos dentro del tablero e indicar cuando ya está ocupado
+     * 
+     * @param objeto
+     * @return 
+     */
     public boolean  InsertarObjeto(Posicion objeto){
         if(tablero[objeto.getX()][objeto.getY()].impresion.equalsIgnoreCase("    ")){
             tablero[objeto.getX()][objeto.getY()]=objeto;
@@ -71,15 +112,28 @@ public class Tablero {
             return false;
         }
     } 
-    // para convertir un hueco del tablero lleno enj vacío
+    /** para convertir un hueco del tablero lleno en vacío
+     * 
+     * @param x
+     * @param y 
+     */
     public void InsertarVacio(int x, int y){
         tablero[x][y]=new Posicion(x,y);
     }
+      /**método get
+       * 
+       * @param x
+       * @param y
+       * @return 
+       */
     public Posicion getTablero(int x,int y){
         
         return tablero[x][y];
     }
-    // para saber el numero de zombis 
+    /** para saber el numero de zombis 
+     * 
+     * @return 
+     */
     public int nZom_enTablero(){
         int nZom=0;
         for (int i = 0; i < x; i++) {

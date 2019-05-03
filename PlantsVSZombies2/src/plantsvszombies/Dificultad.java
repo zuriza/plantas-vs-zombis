@@ -1,21 +1,42 @@
-/*
- * Clase para definir los parametros del juego dependiendo de su dificultad
- */
+
 package plantsvszombies;
 
 /**
  *
  * @author Miguel Y Ricardo
  */
+/**
+ * Clase para definir los parametros del juego dependiendo de su dificultad
+ */
 public class Dificultad {
-
-    public static enum dificultad{FACIL,MEDIA,ALTA,IMPOSIBLE,INCOMPATIBLE}; // los tipos dificultad 
-    private final dificultad diff; // indica la dificultad
-    private final int nTurnos;//Numero de turnos que dura la partida
-    private int nZombies;// Numero de zombies que aparecen durante la partida
-    private int tSinZomb;// Numero de turnos de preparacion hasta que aparecen zombies
-    private final boolean valido;// Variable para saber si la dificultad recogida es valida
-    // aquí se indica los detalles de cada dificultad
+    /** los tipos dificultad 
+     * 
+     */
+    public static enum dificultad{FACIL,MEDIA,ALTA,IMPOSIBLE,INCOMPATIBLE}; 
+    /** indica la dificultad
+     * 
+     */
+    private final dificultad diff; 
+    /**Numero de turnos que dura la partida
+     * 
+     */
+    private final int nTurnos;
+    /** Numero de zombies que aparecen durante la partida
+     * 
+     */
+    private int nZombies;
+    /** Numero de turnos de preparacion hasta que aparecen zombies
+     * 
+     */
+    private int tSinZomb;
+    /** Variable para saber si la dificultad recogida es valida
+     * 
+     */
+    private final boolean valido;
+    /** aquí se indica los detalles de cada dificultad
+     * 
+     * @param dif 
+     */
     public Dificultad(String dif){
         nTurnos=30;
         if (dif.equalsIgnoreCase(dificultad.FACIL.toString())){
@@ -44,19 +65,38 @@ public class Dificultad {
             valido=false;
         }
     }
-    // los métodos set y get
+    /** método get
+     * 
+     * @return 
+     */
     public int getNZombies(){
         return nZombies;
     }
+     /** método get
+     * 
+     * @return 
+     */
     public int getNTurnos(){
         return nTurnos;
     }
+     /** método get
+     * 
+     * @return 
+     */
     public int getTurnosSinZombies(){
         return tSinZomb;
     }
+     /** método get
+     * 
+     * @return 
+     */
     public boolean getValido(){
         return valido;
     }
+     /** método get
+     * 
+     * @return 
+     */
     public dificultad getDiff(){
         return diff;
     }

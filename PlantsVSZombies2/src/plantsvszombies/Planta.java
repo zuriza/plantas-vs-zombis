@@ -1,21 +1,20 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
+
 package plantsvszombies;
 
 /**
  *
  * @author Miguel y Ricardo
+ * 
+ */
+/**
  * Hacemos una clase abstraca de la cual extiende de posicion. Esta clase va a denominar variables que van a ser
- * usadas para heredarse.
+ * usadas para heredarse
  */
 public abstract class Planta extends Posicion{
 
-    /**
+    /**método get
      * @return the vidas
-     * creamos todos los metodos diferentes de set y get de las variables que estan descritas casi al final
+     * 
      * 
      */
     
@@ -23,21 +22,21 @@ public abstract class Planta extends Posicion{
         return vidas;
     }
 
-    /**
+    /**método set
      * @param vidas the vidas to set
      */
     public final void setVidas(int vidas) {
         this.vidas = vidas;
     }
 
-    /**
+    /**método get
      * @return the comportamiento
      */
     public final String getComportamiento() {
         return comportamiento;
     }
 
-    /**
+    /**método set
      * @param comportamiento the comportamiento to set
      */
     public final void setComportamiento(String comportamiento) {
@@ -47,30 +46,34 @@ public abstract class Planta extends Posicion{
     
 
 
-    /**
+    /** método get
      * @return the frecuencia
      */
     public final int getFrecuencia() {
         return frecuencia;
     }
 
-    /**
+    /**método set
      * @param frecuencia the frecuencia to set
      */
     public final void setFrecuencia(int frecuencia) {
         this.frecuencia = frecuencia;
     }
 
-    /**
+    /**método get
      * @return the daño
      */
     public final int getDaño() {
         return daño;
     }
+    /**
+     * para saber cuanto daño recibe
+     * @param daño 
+     */
     public void takeDaño(int daño){
         vidas-=daño;
     }
-    /**
+    /** método set
      * @param daño the daño to set
      */
     public final void setDaño(int daño) {
@@ -84,7 +87,11 @@ public abstract class Planta extends Posicion{
     private int frecuencia;
     /** el daño que provoca cada golpe */
     private int daño;
-
+    /** posición de una planta
+     * 
+     * @param x
+     * @param y 
+     */
     public Planta(int x, int y){
         super(x,y);
     }
