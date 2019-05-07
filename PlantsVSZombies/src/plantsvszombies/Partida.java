@@ -1,43 +1,116 @@
-/*
- * Bucle principal donde se ejecuta la partida
- * 
- * 
- */
+
 package plantsvszombies;
 
 import java.util.*;
 
 /**
  *
- * @author Miguel
+ * @author Miguel Y Ricardo
+ *
+ */
+/**
+ * Bucle principal donde se ejecuta la partida
+ * 
+ * 
  */
 public class Partida {
+    /** creamos variable de tipo enum para que sea más restringida y contenga menos errores*/
     private enum orden{
         L,G,S,AYUDA,ENTER{
+            /** hacemos este override para sobreescribir esta orden y que funcione cuando se pulse enter sin
+             *  escribir nada
+             */
             @Override
             public String toString(){
                 return "";
             }
         }
     }
-    private final Dificultad dificultad;
-    private final Tablero tablero;
+    /** dificultad que tendrá la partida 
+     * 
+     */
+    private final Dificultad dificultad; 
+    
+    /** el tablero que verás por pantalla 
+     * 
+     */
+    private final Tablero tablero; 
+    
+     /** variable que entra por teclado que se utilizará para compararse 
+      * 
+      */
     private final Scanner entrada=new Scanner(System.in);
+    
+    /** numeros de zombies 
+     * 
+     */
     private int nZombies;
+    
+    /** numeros de turnos 
+     * 
+     */
     private int nTurnos;
+    
+    /** numero que se usará para saber si entra un zombi o no 
+     * 
+     */
     private Random aleatorio=new Random();
+    
+    /** para saber cuando vienen los zombis 
+     * 
+     */
     private final int nTurnosConZ;
-    private final int nTurnosSinZ;
-    private boolean corriendo=true;
+    
+    /** cuando turnos iniciales sin zombis */
+    private final int nTurnosSinZ; 
+    
+    /** para inicializar la partida si se convierte en falsa acaba
+     * 
+     */
+    private boolean corriendo=true; 
+    
     private boolean zombisentablero=true;
+    /** para rellenar los objetos que mueran en el juego 
+     * 
+     */
     private ArrayList<Posicion> muertos =new ArrayList<>();
-    private int soles;//cantidad de soles que quedan
-    private boolean lanzagcol; // Miran si ya se ha colocado un girasol o un
-    private boolean girasolcol;// lanzaguisantes en este turno.
-    private ArrayList<Girasol> girasoles= new ArrayList<>();              //Llevan la cuenta y almacenan 
-    private ArrayList<Lanza_guisantes> lanza_guisantes= new ArrayList<>();//los objetos 
-    private ArrayList<ZombieComun> zombies= new ArrayList<>();            //que se han colocado en el tablero
+    
+    /**cantidad de soles que quedan
+     * 
+     */
+    private int soles;
+    
+    /** Miran si ya se ha colocado un girasol o un 
+     * 
+     */
+    private boolean lanzagcol; 
+    
+    /** lanzaguisantes en este turno. 
+     * 
+     */
+    private boolean girasolcol;
+    
+    /**Llevan la cuenta y almacenan los objetos que se han colocado en el tablero 
+     * 
+     */
+    private ArrayList<Girasol> girasoles= new ArrayList<>();
+    /**Llevan la cuenta y almacenan los objetos que se han colocado en el tablero 
+     * 
+     */
+    private ArrayList<Lanza_guisantes> lanza_guisantes= new ArrayList<>();
+    /**Llevan la cuenta y almacenan los objetos que se han colocado en el tablero 
+     * 
+     */
+    private ArrayList<ZombieComun> zombies= new ArrayList<>();  
+    /**
+     * empezamos la partida con un tablero y una dificultad
+     * @param tabl
+     * @param diff 
+     */
     public Partida(Tablero tabl, Dificultad diff){
+        /** iniciamos las variables que antes creamos, ya sea con un simple valor o llamando a 
+         *  otras funciones
+         */
         soles=50;
         nTurnos=0;
         tablero=tabl;
@@ -45,6 +118,9 @@ public class Partida {
         nZombies=diff.getNZombies();
         nTurnosConZ=diff.getNTurnos();
         nTurnosSinZ=diff.getTurnosSinZombies();
+        /** comparamos la variable corriendo y empieza a imprimir el tablero 
+         * 
+         */
         while(corriendo==true){
             nTurnos+=1;
             System.out.println("Soles: "+ soles);
@@ -52,16 +128,30 @@ public class Partida {
             System.out.println("Turno: "+ nTurnos + " Quedan "+nZombies+" zombies por salir");
             lanzagcol=false;
             girasolcol=false;
-            
+            /** una vez que está impreso el tablero pedimos ordenes por teclado
+             * 
+             */
             while(true){
                 String mensage=entrada.nextLine();
                 String[] ord= mensage.split(" ");
+                /** si es igual a enter se sale
+                 * 
+                 */
                 if (ord[0].equalsIgnoreCase(orden.ENTER.toString())){
                 
                     break;   
-                
+                /** si es igual a L crea una posicion con un lanzaguisantes en la posicion indicada
+                 * 
+                 */
                 }else if(ord[0].equalsIgnoreCase(orden.L.toString())){  
+                    /** para capturar un posible error
+                     * 
+                     */
                     try{
+                     /** comparamos que tengas el coste necesarios de soles y se hace llamada a las funciones
+                      * para que se imprima en el lugar correcto
+                      */
+                      
                     if(lanzagcol==false&&soles>=Lanza_guisantes.coste){
                         
                         
@@ -80,9 +170,15 @@ public class Partida {
                         soles=soles-Lanza_guisantes.coste;    
                         lanzagcol=true;
                         }
+                    /** si alguna orden de las anteriores no se cumple se procederá a este else
+                     * 
+                     */
                     }else{
                         System.out.println("No se puede colocar el lanzaguisantes");
                     }
+                    /** para capturar el error cuando por teclado no se indique una orden correcta
+                     * 
+                     */
                     }catch(StringIndexOutOfBoundsException c){
                         System.out.println("Orden no validaº\n"
                                 + "Formato: L <x> <y>");
@@ -96,15 +192,27 @@ public class Partida {
                         System.out.println("Orden no valida;\nLas plantas no "
                                 + "pueden colocarse en la ultima columna");
                     }  
-                
+                /** esto hará que cuando uno no sepa que ordenes poner, le salga por pantalla las instrucciones
+                 * 
+                 */
                 }else if(ord[0].equalsIgnoreCase(orden.AYUDA.toString())){
                     
                     System.out.println("Colocar Lanzaguisantes: L <x> <y>\n"
                         +"Colocar girasol: G <x> <y>\n"
                         +"Terminar turno: ENTER\n"
                         + "Salir: S \n ");
+                /** si es igual a G crea una posicion con un girasol en la posicion indicada
+                 * 
+                 */
                 }else if(ord[0].equalsIgnoreCase(orden.G.toString())){
+                    /** para capturar un posible error
+                     * 
+                     */
                     try{
+                        /** comparamos que tengas el coste necesarios de soles y se hace llamada a las funciones
+                         * para que se imprima en el lugar correcto
+                         */
+                        
                         if (girasolcol==false&&soles>Girasol.coste){ 
                             soles= soles-Girasol.coste;
                        
@@ -122,10 +230,15 @@ public class Partida {
                             if(insertado==true){
                                 girasolcol=true;
                             }
-                       
+                       /** si alguna orden de las anteriores no se cumple se procederá a este else
+                        * 
+                        */
                         }else{
                             System.out.println("Ya se ha colocado un girasol este turno");
                         }
+                    /** para aquellos errores que salgan del try sean capturados
+                     * 
+                     */
                     }catch(StringIndexOutOfBoundsException c){
                         System.out.println("Orden no valida\n"
                                 + "Formato: G <x> <y>");
@@ -139,7 +252,9 @@ public class Partida {
                         System.out.println("Orden no valida\n"
                                 + "Las plantas no pueden colocarse en la ultima columna");
                     }
-                
+                /** para salir del programa
+                 * 
+                 */ 
                 }else if(ord[0].equalsIgnoreCase(orden.S.toString())){
                     corriendo=false;
                     break;
@@ -148,7 +263,10 @@ public class Partida {
                         + " posibles");
                     } 
                 }
-            
+            /** 
+             * Aquí indicamos cuantas rondas y zombies hay por tablero, esto dependerá de la dificultad que
+             * se indique
+             */
             if(nTurnos>nTurnosSinZ&&nZombies>0&&nTurnos<nTurnosConZ){
                 switch (dificultad.getDiff()) {
                     case FACIL:
@@ -157,7 +275,7 @@ public class Partida {
                             ZombieComun zombie1=new ZombieComun(tablero.getX()-1
                                 ,aleatorio.nextInt(tablero.getY()));
                             tablero.InsertarObjeto(zombie1); 
-                            zombies.add(zombie1);
+                            zombies.add(zombie1); 
                             nZombies-=1;
                         }
                         break;
@@ -195,15 +313,17 @@ public class Partida {
                 }    
             }
             
-            //Empieza aqui el turno
-            /*
+            /**Empieza aqui el turno
+             * 
+             */
+            /**
              * Almacenamiento de soles 
              */
             girasoles.forEach((girasol) -> {
                 soles+=girasol.genSoles();
             });
             
-            /*
+            /**
              *Atacan los lanzaguisantes
              */
             for (Lanza_guisantes lanza_guisante : lanza_guisantes) {
@@ -222,7 +342,7 @@ public class Partida {
        
                 
             }
-            /*
+            /**
              *Se mueven o atacan los zombies
              */
             zombies.forEach((zombi) -> {                
@@ -240,6 +360,9 @@ public class Partida {
                     tablero.InsertarVacio(zombi.getX()+1, zombi.getY());
                 }
             });
+            /** Eliminar los girasoles cuando no tengan vida y se añaden a una arrayList de muertos
+             * 
+             */
             for(Girasol girasol: girasoles){
                 if (girasol.getVidas()==0){
                     tablero.InsertarVacio(girasol.getX(), girasol.getY());
@@ -250,7 +373,9 @@ public class Partida {
                 girasoles.remove(pos);
             });
             muertos.clear();
-            
+              /** Eliminar los zombies cuando no tengan vida y se añaden a una arrayList de muertos
+               * 
+               */
             for(ZombieComun zombi: zombies){
                 if (zombi.getVida()==0){
                     tablero.InsertarVacio(zombi.getX(), zombi.getY());
@@ -261,7 +386,9 @@ public class Partida {
                 zombies.remove(pos);
             });
             muertos.clear();
-            
+            /** Eliminar los lanzaguisantes cuando no tengan vida y se añaden a una arrayList de muertos
+             * 
+             */
             for(Lanza_guisantes lanzag: lanza_guisantes){
                 if (lanzag.getVidas()==0){
                     tablero.InsertarVacio(lanzag.getX(), lanzag.getY());
@@ -272,7 +399,9 @@ public class Partida {
                 lanza_guisantes.remove(pos);
             });
             muertos.clear();
-            
+            /** metodo para saber cuando los zombies gan ganado
+             * 
+             */
             for (int i = 0; i < tablero.getY(); i++) {
                 if(tablero.getTablero(0, i).impresion.substring(0,1).
                         equals("Z")){
@@ -281,6 +410,9 @@ public class Partida {
                     corriendo=false;
                 } 
             }
+            /** metodo para saber cuando has ganado
+             * 
+             */
             if((tablero.nZom_enTablero()==0&&nZombies==0)||(tablero.nZom_enTablero()==0&&nTurnos>nTurnosConZ)){
                 System.out.println("Partida terminada, JUGADOR gana.");
             }
