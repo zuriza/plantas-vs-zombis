@@ -7,6 +7,7 @@ package Usuarios;
 
 import java.io.*;
 import java.util.*;
+import javax.swing.*;
 import plantsvszombies.Dificultad;
 
 /**
@@ -35,12 +36,16 @@ public class Usuario implements Serializable {
      * Numero de partidas ganadas
      */
     private int p_ganadas;
+    public void imprimirTargeta(){
+        
+    }
     /**
      * 
      * @param diff
      * @param pts
      * @param ganada 
      */
+   
     public void PartidaJugada(Dificultad diff, int pts, boolean ganada){
         p_jugadas.add(new Partidas(diff,pts,ganada));
         this.pts+=pts;
@@ -91,5 +96,6 @@ public class Usuario implements Serializable {
     public Usuario(String nomb,String dni){
         this.nombre=nomb;
         this.DNI=dni;
+        pts=0;
     }
 }

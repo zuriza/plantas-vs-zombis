@@ -1,8 +1,11 @@
 
 package plantsvszombies;
 
+import java.util.HashSet;
 import java.util.Scanner;
-
+import Usuarios.*;
+import java.io.*;
+import java.util.HashMap;
 /**
  *
  * @author Miguel y Ricardo
@@ -23,6 +26,27 @@ public class PlantsVSZombies {
      * 
      */
     public static void main(String[] args) {
+        /**
+         * Hashmap para guardar los usuarios
+         */
+        HashMap <String,String> usuarios;
+        File datos_usuarios=new File("usuarios.txt");
+        try{
+        if(datos_usuarios.exists()){
+            
+            ObjectInputStream canal= new ObjectInputStream(new FileInputStream("usuarios.txt"));
+            
+            usuarios=(HashMap)canal.readObject();
+            
+            canal.close();
+        }else{
+          
+              usuarios=new HashMap();
+              Escritura.escribirHash(usuarios);
+        }
+        }catch(IOException | ClassNotFoundException e){
+                
+                }
         /**
          *  Variable que será introducida por teclado e inicializamos una variable partida como falsa para
          *  cuando esta sea cambiada a true
