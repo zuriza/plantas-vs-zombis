@@ -1,6 +1,7 @@
 
 package plantsvszombies;
 
+import Usuarios.Usuario;
 import java.util.*;
 
 /**
@@ -112,7 +113,7 @@ public class Partida {
      * @param tabl
      * @param diff 
      */
-    public Partida(Tablero tabl, Dificultad diff){
+    public Partida(Tablero tabl, Dificultad diff,Usuario user){
         /** iniciamos las variables que antes creamos, ya sea con un simple valor o llamando a 
          *  otras funciones
          */
@@ -558,6 +559,7 @@ public class Partida {
                     System.out.println("Partida terminada, ZOMBIES ganan.");
                     tablero.ImprimirTabliero();
                     corriendo=false;
+                    user.PartidaJugada(diff, soles, false);
                 } 
             }
             /** metodo para saber cuando has ganado
@@ -565,6 +567,7 @@ public class Partida {
              */
             if((tablero.nZom_enTablero()==0&&nZombies==0)||(tablero.nZom_enTablero()==0&&nTurnos>nTurnosConZ)){
                 System.out.println("Partida terminada, JUGADOR gana.");
+                user.PartidaJugada(diff, soles, true);
             }
         }           
     }

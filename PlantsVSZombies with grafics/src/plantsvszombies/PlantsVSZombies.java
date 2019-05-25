@@ -29,7 +29,8 @@ public class PlantsVSZombies {
         /**
          * Hashmap para guardar los usuarios
          */
-        HashMap <String,String> usuarios;
+        HashMap <String,Usuario> usuarios;
+        Usuario user;
         File datos_usuarios=new File("usuarios.txt");
         try{
         if(datos_usuarios.exists()){
@@ -84,7 +85,7 @@ public class PlantsVSZombies {
                 
                 if(diff.getValido()==true){
                     Tablero tablero=new Tablero(x,y);
-                    Partida partida= new Partida(tablero,diff);
+                    Partida partida= new Partida(tablero,diff,user);
                 }
                 }catch(StringIndexOutOfBoundsException c){
                     System.out.println("Orden no valida");

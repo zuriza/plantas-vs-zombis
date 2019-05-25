@@ -13,19 +13,42 @@ import javax.swing.*;
  * @author Usuario
  */
 public class TargetaUsuario extends JFrame{
+    private final Usuario user;
+    private JLabel nomb,dni,pts,p_gan,p_jug;
+    
     public TargetaUsuario(Usuario user){
+        this.user=user;
+        this.componentes();
         super.setVisible(true);
-        super.setSize(600, 500);
-        super.setLocation(1000,1000);
-        super.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
+        super.setLayout(null);
+        super.setSize(350, 300);
+        super.setLocation(500,500);
+        super.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         super.setTitle("Targeta de usuario de "+user.getNombre());
-        
+        super.setResizable(false); 
+        super.add(nomb);
+        super.add(dni);
+        super.add(pts);
+        super.add(p_gan);
+        super.add(p_jug);
     }
-}
-class Lamina extends JPanel{
-    @Override
-    public void paintComponent(Graphics g){
-        super.paintComponent(g);
-        g.drawString(TOOL_TIP_TEXT_KEY, WIDTH, WIDTH);
+    private void componentes(){
+        nomb=new JLabel();
+        nomb.setBounds(30, 30, 100, 20);
+        nomb.setText(user.getNombre());
+        dni=new JLabel();
+        pts=new JLabel();
+        p_gan=new JLabel();
+        p_jug=new JLabel();
+        dni.setBounds(30, 70, 100, 20);
+        dni.setText(user.getDNI());
+        pts.setBounds(30, 110, 500, 20);
+        pts.setText("Puntos: "+ user.getPts());
+        p_gan.setBounds(30, 150, 200, 20);
+        p_gan.setText("Ha ganado "+user.getP_ganadas()+" partidas.");
+        p_jug.setBounds(30, 190, 200, 20);
+        p_jug.setText("Ha jugado "+ user.getP_jugadas()+" partidas.");
+        
+        
     }
 }

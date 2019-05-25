@@ -37,6 +37,7 @@ public class Usuario implements Serializable {
      */
     private int p_ganadas;
     public void imprimirTargeta(){
+        TargetaUsuario tar= new TargetaUsuario(this);
         
     }
     /**
@@ -78,8 +79,8 @@ public class Usuario implements Serializable {
      * 
      * @return 
      */
-    public ArrayList getP_jugadas(){
-        return p_jugadas;
+    public int getP_jugadas(){
+        return p_jugadas.size();
     }
     /**
      * 
@@ -97,5 +98,7 @@ public class Usuario implements Serializable {
         this.nombre=nomb;
         this.DNI=dni;
         pts=0;
+        p_jugadas=new ArrayList();
+        
     }
 }
