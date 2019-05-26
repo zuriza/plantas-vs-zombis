@@ -30,7 +30,7 @@ public class PlantsVSZombies {
          * Hashmap para guardar los usuarios
          */
         HashMap <String,Usuario> usuarios;
-        Usuario user;
+        Usuario user=new Usuario("","");
         File datos_usuarios=new File("usuarios.txt");
         try{
         if(datos_usuarios.exists()){
@@ -48,6 +48,7 @@ public class PlantsVSZombies {
         }catch(IOException | ClassNotFoundException e){
                 
                 }
+        
         /**
          *  Variable que será introducida por teclado e inicializamos una variable partida como falsa para
          *  cuando esta sea cambiada a true

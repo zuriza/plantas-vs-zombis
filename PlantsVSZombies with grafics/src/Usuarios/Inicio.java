@@ -35,7 +35,7 @@ public class Inicio extends JFrame{
         super.add(btnLista);
         
     }
-    public void componentes(){
+    private void componentes(){
      btnIni=new JButton();
      btnTgt=new JButton();
      btnLista=new JButton();
@@ -49,6 +49,12 @@ public class Inicio extends JFrame{
             @Override
             public void actionPerformed(ActionEvent e){
                 TargetaUsuario tar=new TargetaUsuario(user);
+            }
+        });
+     btnLista.addActionListener(new ActionListener(){
+            @Override
+            public void actionPerformed(ActionEvent e){
+                Ranking rkng= new Ranking(usuarios);
             }
         });
      

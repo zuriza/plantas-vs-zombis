@@ -89,6 +89,10 @@ public class Usuario implements Serializable {
     public int getP_ganadas(){
         return p_ganadas;
     }
+    @Override
+    public String toString(){
+        return this.nombre+"  "+this.DNI+"  "+ this.pts+"  "+ this.p_jugadas.size()+"  "+this.p_ganadas;
+    }
     /**
      * 
      * @param nomb
