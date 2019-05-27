@@ -2,10 +2,7 @@
 package plantsvszombies;
 
 import java.util.*;
-import javax.swing.JFrame;
-import javax.swing.ImageIcon;
-import javax.swing.JLabel;
-import static plantsvszombies.Tableronew.*;
+
 /**
  *
  * @author Miguel Y Ricardo
@@ -123,6 +120,7 @@ public class Partida {
         /** iniciamos las variables que antes creamos, ya sea con un simple valor o llamando a 
          *  otras funciones
          */
+        
         soles=50;
         nTurnos=0;
         tablero=tabl;
@@ -130,6 +128,7 @@ public class Partida {
         nZombies=diff.getNZombies();
         nTurnosConZ=diff.getNTurnos();
         nTurnosSinZ=diff.getTurnosSinZombies();
+       
         /** comparamos la variable corriendo y empieza a imprimir el tablero 
          * 
          */
@@ -138,9 +137,7 @@ public class Partida {
             tablero.ImprimirTabliero();
             System.out.println("Soles:"+soles);
             System.out.println("Turno:"+nTurnos);
-            if (nTurnos ==1){
-                Tableronew table = new Tableronew (soles,nTurnos,planta,0,0);
-            }
+            
             
             lanzagcol=false;
             girasolcol=false;
@@ -156,7 +153,7 @@ public class Partida {
                  * 
                  */
                 if (ord[0].equalsIgnoreCase(orden.ENTER.toString())){
-                        Tableronew imprimir= new Tableronew (soles,nTurnos,planta,0,0);
+               
                     break;   
                 /** si es igual a C crea una posicion con un petacereza en la posicion indicada
                  * 
@@ -236,7 +233,7 @@ public class Partida {
                         int y2=77+(50*Integer.parseInt(mensage.substring(4,5)));
                         
                         Nuez nue= new Nuez(x,y);
-                        Tableronew nue2= new Tableronew(soles,nTurnos,planta,x2,y2);
+                      
                         
                         boolean insertado=tablero.InsertarObjeto(nue);
                         
@@ -291,7 +288,7 @@ public class Partida {
                         int y2=77+(50*Integer.parseInt(mensage.substring(4,5)));
                         
                         Lanza_guisantes lanzag= new Lanza_guisantes(x,y);
-                        Tableronew lanzag2= new Tableronew (soles,nTurnos,planta,x2,y2);
+                       
                         boolean insertado=tablero.InsertarObjeto(lanzag);
                         planta=-1;
                         lanza_guisantes.add(lanzag);
@@ -357,7 +354,7 @@ public class Partida {
                             
                         
                             Girasol girasol= new Girasol(x,y);
-                            Tableronew girasol2= new Tableronew (soles,nTurnos,planta,x2,y2);
+                          
                             boolean insertado=tablero.InsertarObjeto(girasol);
                         
                         girasoles.add(girasol);
@@ -597,7 +594,7 @@ public class Partida {
                                 tablero.InsertarObjeto(zombie);
                                 break;
                         }else if (tablero.getTablero(i,lanza_guisante.getY())
-                                .impresion.substring(0, 1).equals("C")) {
+                                .impresion.substring(0, 1).equals("D")) {
                                 System.out.println("GOLPE");
                                 ZombieDeportista zombie=(ZombieDeportista) tablero.getTablero(i,lanza_guisante.getY());
                                 zombie.takeDaño(1);

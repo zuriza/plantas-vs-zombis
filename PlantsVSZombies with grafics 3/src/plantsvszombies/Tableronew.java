@@ -81,7 +81,8 @@ public class Tableronew extends JFrame{
        if (i == 10){
            j++;
        }
-        planta=-1;         
+        planta=-1; 
+       this.inicializador(soles, turnos, planta, x, y);
         
      }
      
@@ -91,17 +92,19 @@ public class Tableronew extends JFrame{
      * @param args the command line arguments
      */
     private void inicializador(int soles, int turnos,int planta,int x , int y) {
-    setSize(800, 600);
-    add(new ClasePanel ( soles,turnos, planta, x , y));
-    ImageIcon image = new ImageIcon("src/imagenes/lanzaguisantes2.png");
-    setIconImage(image.getImage());
-    setLayout(null);
-    setTitle("Mi ventana");
-    setLocationRelativeTo(null);
-    setVisible(true);
-    setResizable(false);
-    setDefaultCloseOperation(DISPOSE_ON_CLOSE);
-    validate();
+        dispose();
+        setSize(800, 600);
+        add(new ClasePanel ( soles,turnos, planta, x , y));
+        ImageIcon image = new ImageIcon("src/imagenes/lanzaguisantes2.png");
+        setIconImage(image.getImage());
+        setLayout(null);
+        setTitle("Juego");
+        setLocationRelativeTo(null);
+        setVisible(true);
+        setResizable(false);
+        setDefaultCloseOperation(DISPOSE_ON_CLOSE);
+        validate();
+    
     
  }
  

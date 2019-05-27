@@ -29,84 +29,24 @@ public class PlantsVSZombies {
         /**
          * Hashmap para guardar los usuarios
          */
-        HashMap <String,Usuario> usuarios;
+        HashMap <String,Usuario> usuarios=new HashMap();
         Usuario user=new Usuario("","");
         File datos_usuarios=new File("usuarios.txt");
         try{
         if(datos_usuarios.exists()){
-            
+            System.out.println(" existe");
             ObjectInputStream canal= new ObjectInputStream(new FileInputStream("usuarios.txt"));
             
             usuarios=(HashMap)canal.readObject();
             
             canal.close();
         }else{
-          
-              usuarios=new HashMap();
+              System.out.println("no existe");
               Escritura.escribirHash(usuarios);
         }
         }catch(IOException | ClassNotFoundException e){
                 
                 }
-        
-        /**
-         *  Variable que será introducida por teclado e inicializamos una variable partida como falsa para
-         *  cuando esta sea cambiada a true
-         */
-        Scanner entrada=new Scanner(System.in);
-        boolean partida_empezada=false;
-        /**
-         * Hacemos un while para comparar las ordenes de teclado con la variable enum
-         */
-        while(true){
-            /**
-             * iniciamos un try para capturar los diferentes tipos de error que pueden llegar ocurrir 
-             */
-           try{
-            String mensage= entrada.nextLine();
-            String[] a=mensage.split(" ");
-        
-            /**
-             *  si la variable por scanner es igual al ".toString" iniciará el programa cuando sea N o se saldrá
-             *  si es S o mostrará los comandos de ayuda con AYUDA. Si se escribe otra cosa que no sea algunas
-             *  de las anteriores se capturará el error con los catch
-             */       
-            if (a[0].equalsIgnoreCase(ordenes.S.toString())){
-                
-                break;   
-                
-            }else if(a[0].equalsIgnoreCase(ordenes.N.toString())){
-                try{
-                    
-                int x=Integer.parseInt(a[1]);
-                
-                int y=Integer.parseInt(a[2]);
-                
-                Dificultad diff=new Dificultad(a[3]);
-                
-                if(diff.getValido()==true){
-                    Tablero tablero=new Tablero(x,y);
-                    Partida partida= new Partida(tablero,diff,user);
-                }
-                }catch(StringIndexOutOfBoundsException c){
-                    System.out.println("Orden no valida");
-                 
-                }catch(ArrayIndexOutOfBoundsException d){
-                    System.out.println("Orden no valida");
-                }catch(NumberFormatException e){
-                    System.out.println("Orden no valida");
-                }
-            }else if(a[0].equalsIgnoreCase(ordenes.AYUDA.toString())){
-                System.out.println("Nueva partida: N <x> <y> <dificultad>\n"
-                        + "Salir: S \n ");
-            }else{
-                System.out.print("Orden no valida\n <AYUDA> para ver los comandos"
-                        + " posibles");
+        SelectUser seleccion= new SelectUser(usuarios);
             }  
-           }catch(StringIndexOutOfBoundsException b){
-               System.out.println("Orden no valida");
-           }
-        }              
-    }
-    
 }

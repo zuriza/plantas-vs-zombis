@@ -60,6 +60,7 @@ public class PlantsVSZombies {
                     Tablero tablero=new Tablero(7,7);
                     Partida partida= new Partida(tablero,diff);
                     
+                    
                 }
                 }catch(StringIndexOutOfBoundsException c){
                     System.out.println("Orden no valida");

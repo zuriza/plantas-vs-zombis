@@ -27,7 +27,7 @@ public class Inicio extends JFrame{
         super.setLayout(null);
         super.setSize(350, 400);
         super.setLocation(500,500);
-        super.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+        super.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         super.setTitle("Inicio");
         super.setResizable(false);
         super.add(btnIni);
@@ -56,6 +56,12 @@ public class Inicio extends JFrame{
             public void actionPerformed(ActionEvent e){
                 Ranking rkng= new Ranking(usuarios);
             }
+        });
+      btnIni.addActionListener(new ActionListener(){
+           @Override
+           public void actionPerformed(ActionEvent e){
+                SelDificultad ini= new SelDificultad(usuarios,user);
+           }
         });
      
      

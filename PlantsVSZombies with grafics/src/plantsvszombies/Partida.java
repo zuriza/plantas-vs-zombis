@@ -1,8 +1,11 @@
 
 package plantsvszombies;
 
+import Usuarios.Escritura;
 import Usuarios.Usuario;
+import java.io.IOException;
 import java.util.*;
+import javax.swing.JOptionPane;
 
 /**
  *
@@ -18,7 +21,7 @@ import java.util.*;
 public class Partida {
     /** creamos variable de tipo enum para que sea más restringida y contenga menos errores*/
     private enum orden{
-        L,G,C,N,S,AYUDA,ENTER{
+        L,G,P,N,S,AYUDA,ENTER{
             /** hacemos este override para sobreescribir esta orden y que funcione cuando se pulse enter sin
              *  escribir nada
              */
@@ -51,13 +54,14 @@ public class Partida {
     /** numeros de turnos 
      * 
      */
-    private int nTurnos;
+    public int nTurnos;
     
     /** numero que se usará para saber si entra un zombi o no 
      * 
      */
-    private Random aleatorio=new Random();
     
+    private Random aleatorio=new Random();
+    private int planta = -1;
     /** para saber cuando vienen los zombis 
      * 
      */
@@ -80,7 +84,8 @@ public class Partida {
     /**cantidad de soles que quedan
      * 
      */
-    private int soles;
+    public int soles;
+    
     
     /** Miran si ya se ha colocado un girasol o un 
      * 
@@ -104,19 +109,26 @@ public class Partida {
     private ArrayList<Lanza_guisantes> lanza_guisantes= new ArrayList<>();
     private ArrayList<Cherry> cherry= new ArrayList<>();
     private ArrayList<Nuez> Nueces= new ArrayList<>();
+    private ArrayList<Planta> plantas= new ArrayList<>();
     /**Llevan la cuenta y almacenan los objetos que se han colocado en el tablero 
      * 
      */
     private ArrayList<ZombieComun> zombies= new ArrayList<>();  
+    private ArrayList<ZombieCaracubo> zombiesCaracubo= new ArrayList<>(); 
+    private ArrayList<ZombieDeportista> zombiesDeportista= new ArrayList<>();
+    private ArrayList<Zombies> zombi=new ArrayList<>();
+    
+    PartidaGrafica partGraf;
     /**
      * empezamos la partida con un tablero y una dificultad
      * @param tabl
      * @param diff 
      */
-    public Partida(Tablero tabl, Dificultad diff,Usuario user){
+    public Partida(Tablero tabl, Dificultad diff,Usuario user, HashMap users){
         /** iniciamos las variables que antes creamos, ya sea con un simple valor o llamando a 
          *  otras funciones
          */
+        partGraf=new PartidaGrafica();
         soles=50;
         nTurnos=0;
         tablero=tabl;
@@ -124,14 +136,17 @@ public class Partida {
         nZombies=diff.getNZombies();
         nTurnosConZ=diff.getNTurnos();
         nTurnosSinZ=diff.getTurnosSinZombies();
+        
         /** comparamos la variable corriendo y empieza a imprimir el tablero 
          * 
          */
         while(corriendo==true){
             nTurnos+=1;
-            System.out.println("Soles: "+ soles);
             tablero.ImprimirTabliero();
-            System.out.println("Turno: "+ nTurnos);
+            System.out.println("Soles:"+soles);
+            System.out.println("Turno:"+nTurnos);
+            
+            
             lanzagcol=false;
             girasolcol=false;
             petacereza=false;
@@ -140,18 +155,18 @@ public class Partida {
              * 
              */
             while(true){
-                String mensage=entrada.nextLine();
+                String mensage=JOptionPane.showInputDialog("Siguiente orden");
                 String[] ord= mensage.split(" ");
                 /** si es igual a enter se sale
                  * 
                  */
                 if (ord[0].equalsIgnoreCase(orden.ENTER.toString())){
-                
+               
                     break;   
                 /** si es igual a C crea una posicion con un petacereza en la posicion indicada
                  * 
                  */
-                }else if(ord[0].equalsIgnoreCase(orden.C.toString())){  
+                }else if(ord[0].equalsIgnoreCase(orden.P.toString())){  
                     /** para capturar un posible error
                      * 
                      */
@@ -162,18 +177,21 @@ public class Partida {
                       
                     if(petacereza==false&&soles>=Cherry.coste){
                         
-                        
+                        planta = 0;
                         int x=Integer.parseInt(mensage.substring(2, 3));
+                        int x2=145+(80*Integer.parseInt(mensage.substring(2, 3)));
                         if(x==tablero.getX()-1){
                             throw (new ExcepcionPlanta());
                         }
                         int y=Integer.parseInt(mensage.substring(4,5));
+                        int y2=77+(50*Integer.parseInt(mensage.substring(4,5)));
                         
                         Cherry cher= new Cherry(x,y);
-                        
+                   
                         boolean insertado=tablero.InsertarObjeto(cher);
                         
                         cherry.add(cher);
+                        plantas.add(cher);
                         if(insertado==true){
                         soles=soles-Cherry.coste;    
                         petacereza=true;
@@ -214,20 +232,24 @@ public class Partida {
                       
                     if(nuez==false&&soles>=Nuez.coste){
                         
-                        
+                        planta = 1;
                         int x=Integer.parseInt(mensage.substring(2, 3));
+                        int x2=145+(80*Integer.parseInt(mensage.substring(2, 3)));
                         if(x==tablero.getX()-1){
                             throw (new ExcepcionPlanta());
                         }
                         int y=Integer.parseInt(mensage.substring(4,5));
+                        int y2=77+(50*Integer.parseInt(mensage.substring(4,5)));
                         
                         Nuez nue= new Nuez(x,y);
+                      
                         
                         boolean insertado=tablero.InsertarObjeto(nue);
                         
                         Nueces.add(nue);
+                        plantas.add(nue);
                         if(insertado==true){
-                        soles=soles-Lanza_guisantes.coste;    
+                        soles=soles-Nuez.coste;    
                         nuez=true;
                         }
                     /** si alguna orden de las anteriores no se cumple se procederá a este else
@@ -266,18 +288,21 @@ public class Partida {
                       
                     if(lanzagcol==false&&soles>=Lanza_guisantes.coste){
                         
-                        
+                        planta = 2;
                         int x=Integer.parseInt(mensage.substring(2, 3));
+                        int x2=145+(80*Integer.parseInt(mensage.substring(2, 3)));
                         if(x==tablero.getX()-1){
                             throw (new ExcepcionPlanta());
                         }
                         int y=Integer.parseInt(mensage.substring(4,5));
+                        int y2=77+(50*Integer.parseInt(mensage.substring(4,5)));
                         
                         Lanza_guisantes lanzag= new Lanza_guisantes(x,y);
-                        
+                       
                         boolean insertado=tablero.InsertarObjeto(lanzag);
-                        
+                        planta=-1;
                         lanza_guisantes.add(lanzag);
+                        plantas.add(lanzag);
                         if(insertado==true){
                         soles=soles-Lanza_guisantes.coste;    
                         lanzagcol=true;
@@ -329,18 +354,22 @@ public class Partida {
                         
                         if (girasolcol==false&&soles>Girasol.coste){ 
                             soles= soles-Girasol.coste;
-                       
+                            planta = 3;
                             int x=Integer.parseInt(mensage.substring(2, 3));
+                            int x2=145+(80*Integer.parseInt(mensage.substring(2, 3)));
                             if(x==tablero.getX()){
                                 throw(new ExcepcionPlanta());
                             }
+                            int y2=77+(50*Integer.parseInt(mensage.substring(4,5)));
                             int y=Integer.parseInt(mensage.substring(4,5));
+                            
                         
                             Girasol girasol= new Girasol(x,y);
-                        
+                          
                             boolean insertado=tablero.InsertarObjeto(girasol);
                         
-                        girasoles.add(girasol);
+                            girasoles.add(girasol);
+                            plantas.add(girasol);
                             if(insertado==true){
                                 girasolcol=true;
                             }
@@ -385,44 +414,137 @@ public class Partida {
                 switch (dificultad.getDiff()) {
                     case FACIL:
                         int aleatorio4=aleatorio.nextInt(100);
-                        if(aleatorio4<24){
+                        int aleatorio9=aleatorio.nextInt(65);
+                        if (aleatorio4<24){
+                            if (aleatorio9<=21){                         
                             ZombieComun zombie1=new ZombieComun(tablero.getX()-1
-                                ,aleatorio.nextInt(tablero.getY()));
-                            tablero.InsertarObjeto(zombie1); 
-                            zombies.add(zombie1); 
-                            nZombies-=1;
+                                    ,aleatorio.nextInt(tablero.getY()));
+                                tablero.InsertarObjeto(zombie1);
+                                zombies.add(zombie1);
+                                zombi.add(zombie1);
+                                nZombies-=1;
+                            }else if (aleatorio9<=43 && aleatorio9 >21){
+                            
+                            ZombieCaracubo zombie1=new ZombieCaracubo(tablero.getX()-1
+                                    ,aleatorio.nextInt(tablero.getY()));
+                                tablero.InsertarObjeto(zombie1);
+                                zombiesCaracubo.add(zombie1);
+                                zombi.add(zombie1);
+                                nZombies-=1;
+                            }else if (aleatorio9<=65 && aleatorio9 >43){
+                            ZombieDeportista zombie1=new ZombieDeportista(tablero.getX()-1
+                                    ,aleatorio.nextInt(tablero.getY()));
+                                tablero.InsertarObjeto(zombie1);
+                                zombiesDeportista.add(zombie1);
+                                zombi.add(zombie1);
+                                nZombies-=1;
+                            }
                         }
                         break;
                     case MEDIA:
                         int aleatorio3=aleatorio.nextInt(100);
+                        int aleatorio8=aleatorio.nextInt(65);
                         if (aleatorio3<64){
-                           ZombieComun zombie1=new ZombieComun(tablero.getX()-1
-                                ,aleatorio.nextInt(tablero.getY()));
-                            tablero.InsertarObjeto(zombie1);
-                            zombies.add(zombie1);
-                            nZombies-=1;
+                            if (aleatorio8<=21){                         
+                            ZombieComun zombie1=new ZombieComun(tablero.getX()-1
+                                    ,aleatorio.nextInt(tablero.getY()));
+                                tablero.InsertarObjeto(zombie1);
+                                zombies.add(zombie1);
+                                zombi.add(zombie1);
+                                nZombies-=1;
+                            }else if (aleatorio8<=43 && aleatorio8 >21){
+                            
+                            ZombieCaracubo zombie1=new ZombieCaracubo(tablero.getX()-1
+                                    ,aleatorio.nextInt(tablero.getY()));
+                                tablero.InsertarObjeto(zombie1);
+                                zombiesCaracubo.add(zombie1);
+                                zombi.add(zombie1);
+                                nZombies-=1;
+                            }else if (aleatorio8<=65 && aleatorio8 >43){
+                            ZombieDeportista zombie1=new ZombieDeportista(tablero.getX()-1
+                                    ,aleatorio.nextInt(tablero.getY()));
+                                tablero.InsertarObjeto(zombie1);
+                                zombiesDeportista.add(zombie1);
+                                zombi.add(zombie1);
+                                nZombies-=1;
+                            }
                         }
                         break;
                     case ALTA:
+                        int aleatorio5=aleatorio.nextInt(65);
+                        if (aleatorio5<=21){
                         ZombieComun zombie1=new ZombieComun(tablero.getX()-1
                                 ,aleatorio.nextInt(tablero.getY()));
                             tablero.InsertarObjeto(zombie1);
                             zombies.add(zombie1);
+                            zombi.add(zombie1);
                             nZombies-=1;
+                        }else if (aleatorio5<=43 && aleatorio5 >21){
+                            ZombieDeportista zombie2=new ZombieDeportista(tablero.getX()-1
+                                ,aleatorio.nextInt(tablero.getY()));
+                            tablero.InsertarObjeto(zombie2);
+                            zombiesDeportista.add(zombie2);
+                            zombi.add(zombie2);
+                            nZombies-=1;
+                        }else if (aleatorio5<=65 && aleatorio5 >43){
+                            ZombieCaracubo zombie2=new ZombieCaracubo(tablero.getX()-1
+                                ,aleatorio.nextInt(tablero.getY()));
+                            tablero.InsertarObjeto(zombie2);
+                            zombiesCaracubo.add(zombie2);
+                            zombi.add(zombie2);
+                            nZombies-=1;
+                        }
                         break;
                     case IMPOSIBLE:
                         int aleatorio1= aleatorio.nextInt(tablero.getY());
                         int aleatorio2= aleatorio.nextInt(tablero.getY());
+                        int aleatorio7=aleatorio.nextInt(65);
+                         if (aleatorio7<=21){
                         ZombieComun zombie2=new ZombieComun(tablero.getX()-1
                                 ,aleatorio1);
                             tablero.InsertarObjeto(zombie2);
+                            zombies.add(zombie2);
+                            zombi.add(zombie2);
                         while(aleatorio1==aleatorio2){
                             aleatorio2=aleatorio.nextInt(tablero.getY());
                         }
                         ZombieComun zombie3=new ZombieComun(tablero.getX()-1
                                 ,aleatorio2);
                             tablero.InsertarObjeto(zombie3);
+                            zombies.add(zombie3);
+                            zombi.add(zombie3);
                         nZombies-=2;
+                         } else if (aleatorio7<=43 && aleatorio7 >21){
+                        ZombieDeportista zombie2=new ZombieDeportista(tablero.getX()-1
+                                ,aleatorio1);
+                            tablero.InsertarObjeto(zombie2);
+                            zombiesDeportista.add(zombie2);
+                            zombi.add(zombie2);
+                        while(aleatorio1==aleatorio2){
+                            aleatorio2=aleatorio.nextInt(tablero.getY());
+                        }
+                        ZombieComun zombie3=new ZombieComun(tablero.getX()-1
+                                ,aleatorio2);
+                            tablero.InsertarObjeto(zombie3);
+                            zombies.add(zombie3);
+                            zombi.add(zombie3);
+                        nZombies-=2;
+                         }else if (aleatorio7<=65 && aleatorio7 >43){
+                        ZombieCaracubo zombie2=new ZombieCaracubo(tablero.getX()-1
+                                ,aleatorio1);
+                            tablero.InsertarObjeto(zombie2);
+                            zombiesCaracubo.add(zombie2);
+                            zombi.add(zombie2);
+                        while(aleatorio1==aleatorio2){
+                            aleatorio2=aleatorio.nextInt(tablero.getY());
+                        }
+                        ZombieComun zombie3=new ZombieComun(tablero.getX()-1
+                                ,aleatorio2);
+                            tablero.InsertarObjeto(zombie3);
+                            zombies.add(zombie3);
+                            zombi.add(zombie3);
+                        nZombies-=2;
+                         }
                         break;
                 }    
             }
@@ -441,16 +563,40 @@ public class Partida {
              *Atacan los lanzaguisantes
              */
             for (Cherry cherrys : cherry) {
-                for (int i = (cherrys.getX()); i < (cherrys.getX()+1); i++) {
-                    for (int j = (cherrys.getY()); i < (cherrys.getY()+1); i++){
-                        if(tablero.getTablero(i,j).impresion.substring(0, 1).equals("Z")){
+                int z= -1 ;
+                int l = -1;
+                if (cherrys.getX()==0){
+                    z=0;
+                }else if (cherrys.getY()==0){
+                    l=0;
+                }
+                for (int i = (cherrys.getX()-z); i < (cherrys.getX()+1); i++) {
+                    for (int j = (cherrys.getY()-l); j < (cherrys.getY()+1); j++){
+                        if(tablero.getTablero(i,j).impresion.substring(0, 1).equals("Z") ){
                                 System.out.println("GOLPE");
                                 ZombieComun zombie=(ZombieComun) tablero.getTablero(i,j);
                                 zombie.takeDaño(10);
                                 tablero.InsertarVacio(zombie.getX(), zombie.getY());
                                 tablero.InsertarObjeto(zombie);
                                 break;
+                        }else if (tablero.getTablero(i,j).impresion.substring(0, 1).equals("C")){
+                            System.out.println("GOLPE");
+                                ZombieCaracubo zombie=(ZombieCaracubo) tablero.getTablero(i,j);
+                                zombie.takeDaño(10);
+                                tablero.InsertarVacio(zombie.getX(), zombie.getY());
+                                tablero.InsertarObjeto(zombie);
+                                break;
+                            
+                        }else if (tablero.getTablero(i,j).impresion.substring(0, 1).equals("D")){
+                            System.out.println("GOLPE");
+                                ZombieDeportista zombie=(ZombieDeportista) tablero.getTablero(i,j);
+                                zombie.takeDaño(10);
+                                tablero.InsertarVacio(zombie.getX(), zombie.getY());
+                                tablero.InsertarObjeto(zombie);
+                                break;
+                            
                         }
+                            
                     }
        
                 }
@@ -466,10 +612,51 @@ public class Partida {
                                 tablero.InsertarVacio(zombie.getX(), zombie.getY());
                                 tablero.InsertarObjeto(zombie);
                                 break;
-                        }
+                        }else if (tablero.getTablero(i,lanza_guisante.getY())
+                                .impresion.substring(0, 1).equals("C")){
+                            System.out.println("GOLPE");
+                                ZombieCaracubo zombie=(ZombieCaracubo) tablero.getTablero(i,lanza_guisante.getY());
+                                zombie.takeDaño(1);
+                                tablero.InsertarVacio(zombie.getX(), zombie.getY());
+                                tablero.InsertarObjeto(zombie);
+                                break;
+                        }else if (tablero.getTablero(i,lanza_guisante.getY())
+                                .impresion.substring(0, 1).equals("D")) {
+                                System.out.println("GOLPE");
+                                ZombieDeportista zombie=(ZombieDeportista) tablero.getTablero(i,lanza_guisante.getY());
+                                zombie.takeDaño(1);
+                                tablero.InsertarVacio(zombie.getX(), zombie.getY());
+                                tablero.InsertarObjeto(zombie);
+                                break;
+                    }
+                        
                     }
        
                 
+            }
+            for (Nuez nue : Nueces) {
+
+                for (int i = 0; i < tablero.getX(); i++) {
+                        if(tablero.getTablero(i,nue.getY())
+                                .impresion.substring(0, 1).equals("Z")){
+                                ZombieComun zombie=(ZombieComun) tablero.getTablero(i,nue.getY());
+                                tablero.InsertarVacio(zombie.getX(), zombie.getY());
+                                tablero.InsertarObjeto(zombie);
+                                break;
+                        }else if (tablero.getTablero(i,nue.getY())
+                                .impresion.substring(0, 1).equals("C")){
+                            ZombieCaracubo zombie=(ZombieCaracubo) tablero.getTablero(i,nue.getY());
+                                tablero.InsertarVacio(zombie.getX(), zombie.getY());
+                                tablero.InsertarObjeto(zombie);
+                                break;
+                        }else if (tablero.getTablero(i,nue.getY())
+                                .impresion.substring(0, 1).equals("D")){
+                            ZombieDeportista zombie=(ZombieDeportista) tablero.getTablero(i,nue.getY());
+                                tablero.InsertarVacio(zombie.getX(), zombie.getY());
+                                tablero.InsertarObjeto(zombie);
+                                break;
+                        }
+                }
             }
             /**
              *Se mueven o atacan los zombies
@@ -477,13 +664,49 @@ public class Partida {
             zombies.forEach((zombi) -> {                
                 Posicion a=tablero.getTablero(zombi.getX()-1, zombi.getY());
                 if (a.impresion.substring(0, 1).equals("G")||
-                        a.impresion.substring(0, 1).equals("L")){
+                        a.impresion.substring(0, 1).equals("L")||
+                        a.impresion.substring(0, 1).equals("P")||
+                        a.impresion.substring(0, 1).equals("N")){
                     Planta planta=(Planta)tablero.getTablero(zombi.getX()-1, zombi.getY());
                     planta.takeDaño(1);
                     System.out.println(planta.getVidas());
                     tablero.InsertarVacio(planta.getX(), planta.getY());
                     tablero.InsertarObjeto(planta);
                 }else if(a.impresion.substring(0, 1).equals("Z")==false){
+                    zombi.setX(zombi.getX()-1);
+                    tablero.InsertarObjeto(zombi);
+                    tablero.InsertarVacio(zombi.getX()+1, zombi.getY());
+                }
+            });
+            zombiesCaracubo.forEach((zombi) -> {                
+                Posicion a=tablero.getTablero(zombi.getX()-1, zombi.getY());
+                if (a.impresion.substring(0, 1).equals("G")||
+                        a.impresion.substring(0, 1).equals("L")||
+                        a.impresion.substring(0, 1).equals("P")||
+                        a.impresion.substring(0, 1).equals("N")){
+                    Planta planta=(Planta)tablero.getTablero(zombi.getX()-1, zombi.getY());
+                    planta.takeDaño(1);
+                    System.out.println(planta.getVidas());
+                    tablero.InsertarVacio(planta.getX(), planta.getY());
+                    tablero.InsertarObjeto(planta);
+                }else if(a.impresion.substring(0, 1).equals("C")==false){
+                    zombi.setX(zombi.getX()-1);
+                    tablero.InsertarObjeto(zombi);
+                    tablero.InsertarVacio(zombi.getX()+1, zombi.getY());
+                }
+            });
+            zombiesDeportista.forEach((zombi) -> {                
+                Posicion a=tablero.getTablero(zombi.getX()-1, zombi.getY());
+                if (a.impresion.substring(0, 1).equals("G")||
+                        a.impresion.substring(0, 1).equals("L")||
+                        a.impresion.substring(0, 1).equals("P")||
+                        a.impresion.substring(0, 1).equals("N")){
+                    Planta planta=(Planta)tablero.getTablero(zombi.getX()-1, zombi.getY());
+                    planta.takeDaño(1);
+                    System.out.println(planta.getVidas());
+                    tablero.InsertarVacio(planta.getX(), planta.getY());
+                    tablero.InsertarObjeto(planta);
+                }else if(a.impresion.substring(0, 1).equals("D")==false){
                     zombi.setX(zombi.getX()-1);
                     tablero.InsertarObjeto(zombi);
                     tablero.InsertarVacio(zombi.getX()+1, zombi.getY());
@@ -511,6 +734,18 @@ public class Partida {
                     muertos.add(zombi);
                 }
             }
+            for(ZombieCaracubo zombi: zombiesCaracubo){
+                if (zombi.getVida()<=0){
+                    tablero.InsertarVacio(zombi.getX(), zombi.getY());
+                    muertos.add(zombi);
+                }
+            }
+            for(ZombieDeportista zombi: zombiesDeportista){
+                if (zombi.getVida()<=0){
+                    tablero.InsertarVacio(zombi.getX(), zombi.getY());
+                    muertos.add(zombi);
+                }
+            }
             muertos.forEach((pos)->{
                 zombies.remove(pos);
             });
@@ -528,7 +763,18 @@ public class Partida {
                 lanza_guisantes.remove(pos);
             });
             muertos.clear();
-            
+             for(Planta pla: plantas){
+                if (pla.getVidas()<=0){
+                    
+                    plantas.remove(pla);
+                }
+            }
+             for(Zombies zomb: zombi){
+                if (zomb.getVida()<=0){
+                    zombi.remove(zomb);
+                }
+            }
+
             for(Cherry cher: cherry){
                 if (cher.getVidas()<=0){
                     tablero.InsertarVacio(cher.getX(), cher.getY());
@@ -550,16 +796,20 @@ public class Partida {
                 lanza_guisantes.remove(pos);
             });
             muertos.clear();
+            
+            partGraf.render(zombi, plantas);
             /** metodo para saber cuando los zombies gan ganado
              * 
              */
             for (int i = 0; i < tablero.getY(); i++) {
                 if(tablero.getTablero(0, i).impresion.substring(0,1).
-                        equals("Z")){
+                        equals("Z")||tablero.getTablero(0, i).impresion.substring(0,1).
+                        equals("C")||tablero.getTablero(0, i).impresion.substring(0,1).
+                        equals("D")){
                     System.out.println("Partida terminada, ZOMBIES ganan.");
+                    user.PartidaJugada(diff, 0, false);
                     tablero.ImprimirTabliero();
                     corriendo=false;
-                    user.PartidaJugada(diff, soles, false);
                 } 
             }
             /** metodo para saber cuando has ganado
@@ -569,7 +819,42 @@ public class Partida {
                 System.out.println("Partida terminada, JUGADOR gana.");
                 user.PartidaJugada(diff, soles, true);
             }
-        }           
+        }
+        users.remove(user.getDNI());
+        users.put(user.getDNI(), user);
+        try{
+        Escritura.escribirHash(users);
+        }catch(IOException e){
+                System.out.println("Documento no encontrado");
+        }
+    }
+
+    /**
+     * @return the nTurnos
+     */
+    public int getnTurnos() {
+        return nTurnos;
+    }
+
+    /**
+     * @param nTurnos the nTurnos to set
+     */
+    public void setnTurnos(int nTurnos) {
+        this.nTurnos = nTurnos;
+    }
+
+    /**
+     * @return the soles
+     */
+    public int getSoles() {
+        return soles;
+    }
+
+    /**
+     * @param soles the soles to set
+     */
+    public void setSoles(int soles) {
+        this.soles = soles;
     }
 }
 
