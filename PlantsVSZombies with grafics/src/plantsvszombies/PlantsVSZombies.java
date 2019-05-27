@@ -31,22 +31,38 @@ public class PlantsVSZombies {
          */
         HashMap <String,Usuario> usuarios=new HashMap();
         Usuario user=new Usuario("","");
-        File datos_usuarios=new File("usuarios.txt");
-        try{
+        File datos_usuarios=new File("hashmap.ser");
+        
         if(datos_usuarios.exists()){
-            System.out.println(" existe");
-            ObjectInputStream canal= new ObjectInputStream(new FileInputStream("usuarios.txt"));
-            
-            usuarios=(HashMap)canal.readObject();
-            
-            canal.close();
-        }else{
-              System.out.println("no existe");
-              Escritura.escribirHash(usuarios);
+            try
+        {
+            FileInputStream file = new FileInputStream("hashmap.ser");
+            ObjectInputStream input = new ObjectInputStream(file);
+            usuarios = (HashMap) input.readObject();
+            input.close();
+            file.close();
+        }catch(IOException ioe)
+            {
+            ioe.printStackTrace();
+            return;
+        }catch(ClassNotFoundException c)
+        {
+         c.printStackTrace();
         }
-        }catch(IOException | ClassNotFoundException e){
-                
-                }
+        }else{
+            
+               try {
+            FileOutputStream file = new FileOutputStream("hashmap.ser");
+            ObjectOutputStream output = new ObjectOutputStream(file);
+            output.writeObject(usuarios);
+            output.close();
+            file.close();
+            System.out.printf("Guardado en hashmap.ser");
+        } catch (IOException ioe) {
+            ioe.printStackTrace();
+        }
+        }
+       
         SelectUser seleccion= new SelectUser(usuarios);
             }  
 }

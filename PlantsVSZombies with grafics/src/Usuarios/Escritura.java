@@ -16,8 +16,11 @@ public abstract class  Escritura {
     
     public static void escribirHash(HashMap hash) throws FileNotFoundException, IOException{
         
-        ObjectOutputStream canal = new ObjectOutputStream(new FileOutputStream("usuarios.txt"));
+        ObjectOutputStream canal;
+        FileOutputStream file= new FileOutputStream("hashmap.ser");
+        canal = new ObjectOutputStream(file);
         canal.writeObject(hash);
+        file.close();
         canal.close();
         
     }

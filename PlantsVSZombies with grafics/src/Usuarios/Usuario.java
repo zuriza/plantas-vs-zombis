@@ -7,7 +7,7 @@ package Usuarios;
 
 import java.io.*;
 import java.util.*;
-import javax.swing.*;
+
 import plantsvszombies.Dificultad;
 
 /**
@@ -16,6 +16,7 @@ import plantsvszombies.Dificultad;
  */
 public class Usuario implements Serializable {
     
+    private static final long serialVersionUID=1L;
     /**  
      * Nombre identificativo del usuario 
      */

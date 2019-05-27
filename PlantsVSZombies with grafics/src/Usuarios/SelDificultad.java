@@ -28,7 +28,7 @@ public class SelDificultad extends JFrame{
         this.users=usuarios;
         super.setVisible(true);
         super.setLayout(null);
-        super.setSize(300, 260);
+        super.setSize(300, 360);
         super.setLocation(500,500);
         super.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         super.setTitle("Seleccione dificultad");

@@ -1,9 +1,11 @@
 
 package plantsvszombies;
 
-import Usuarios.Escritura;
+
 import Usuarios.Usuario;
+import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.ObjectOutputStream;
 import java.util.*;
 import javax.swing.JOptionPane;
 
@@ -123,12 +125,14 @@ public class Partida {
      * empezamos la partida con un tablero y una dificultad
      * @param tabl
      * @param diff 
+     * @param user 
+     * @param users 
      */
     public Partida(Tablero tabl, Dificultad diff,Usuario user, HashMap users){
         /** iniciamos las variables que antes creamos, ya sea con un simple valor o llamando a 
          *  otras funciones
          */
-        partGraf=new PartidaGrafica();
+        partGraf=new PartidaGrafica(zombi,plantas);
         soles=50;
         nTurnos=0;
         tablero=tabl;
@@ -156,7 +160,9 @@ public class Partida {
              */
             while(true){
                 String mensage=JOptionPane.showInputDialog("Siguiente orden");
+                try{
                 String[] ord= mensage.split(" ");
+                
                 /** si es igual a enter se sale
                  * 
                  */
@@ -404,7 +410,10 @@ public class Partida {
                 }else{
                     System.out.print("Orden no valida\n <AYUDA> para ver los comandos"
                         + " posibles");
-                    } 
+                    }
+                }catch(Exception e){
+                    
+                }
                 }
             /** 
              * Aquí indicamos cuantas rondas y zombies hay por tablero, esto dependerá de la dificultad que
@@ -796,7 +805,6 @@ public class Partida {
                 lanza_guisantes.remove(pos);
             });
             muertos.clear();
-            
             partGraf.render(zombi, plantas);
             /** metodo para saber cuando los zombies gan ganado
              * 
@@ -822,10 +830,15 @@ public class Partida {
         }
         users.remove(user.getDNI());
         users.put(user.getDNI(), user);
-        try{
-        Escritura.escribirHash(users);
-        }catch(IOException e){
-                System.out.println("Documento no encontrado");
+         try {
+            FileOutputStream file = new FileOutputStream("hashmap.ser");
+            ObjectOutputStream output = new ObjectOutputStream(file);
+            output.writeObject(users);
+            output.close();
+            file.close();
+            System.out.printf("Guardado en hashmap.ser");
+        } catch (IOException ioe) {
+            ioe.printStackTrace();
         }
     }
 

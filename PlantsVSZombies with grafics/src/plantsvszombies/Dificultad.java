@@ -1,6 +1,8 @@
 
 package plantsvszombies;
 
+import java.io.Serializable;
+
 /**
  *
  * @author Miguel Y Ricardo
@@ -8,7 +10,7 @@ package plantsvszombies;
 /**
  * Clase para definir los parametros del juego dependiendo de su dificultad
  */
-public class Dificultad {
+public class Dificultad implements Serializable{
     /** los tipos dificultad 
      * 
      */
