@@ -7,7 +7,12 @@ package plantsvszombies;
 
 /**
  *
- * @author Nur_z
+ * @author Miguel Y Ricardo
+ * 
+ */
+/**
+ * 
+ * descripción del zombi deportista
  */
 public class ZombieDeportista extends Zombies {
     public ZombieDeportista(int x, int y){

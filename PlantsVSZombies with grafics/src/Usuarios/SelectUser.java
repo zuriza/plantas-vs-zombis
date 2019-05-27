@@ -16,8 +16,14 @@ import javax.swing.JTextField;
 
 /**
  *
- * @author Usuario
+ * @author Miguel Y Ricardo
+ * 
  */
+/**
+ * 
+ * la ventana donde puede registrarte o logearte
+ */
+
 public class SelectUser extends JFrame{
     JButton boton1, boton2;
     JTextField txt1,txt2,txt3;

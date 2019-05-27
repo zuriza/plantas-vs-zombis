@@ -7,7 +7,12 @@ package plantsvszombies;
 
 /**
  *
- * @author Nur_z
+ * @author Miguel Y Ricardo
+ *
+ */
+/**
+ * 
+ *  La descripcion de la petacereza
  */
 public class Cherry extends Planta {
         /** el coste de la producción de una lanzaguisantes

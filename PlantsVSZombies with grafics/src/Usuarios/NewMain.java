@@ -10,7 +10,12 @@ import javax.swing.JOptionPane;
 
 /**
  *
- * @author Usuario
+ * @author Miguel Y Ricardo
+ * 
+ */
+/**
+ * 
+ *inicio del juego
  */
 public class NewMain {
 

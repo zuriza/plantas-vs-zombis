@@ -9,7 +9,12 @@ import java.io.*;
 import plantsvszombies.Dificultad;
 /**
  *
- * @author Usuario
+ * @author Miguel Y Ricardo
+ * 
+ */
+/**
+ * 
+ * Donde se guarda los puntos de la partida
  */
 public class Partidas implements Serializable{
     

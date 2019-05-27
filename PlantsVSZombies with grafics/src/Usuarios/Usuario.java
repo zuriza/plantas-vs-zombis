@@ -12,7 +12,12 @@ import plantsvszombies.Dificultad;
 
 /**
  *
- * @author Miguel
+ * @author Miguel Y Ricardo
+ * 
+ */
+/**
+ * 
+ * Donde se guarda los datos de usuario
  */
 public class Usuario implements Serializable {
     
@@ -38,7 +43,7 @@ public class Usuario implements Serializable {
      */
     private int p_ganadas;
     public void imprimirTargeta(){
-        TargetaUsuario tar= new TargetaUsuario(this);
+        TarjetaUsuario tar= new TarjetaUsuario(this);
         
     }
     /**

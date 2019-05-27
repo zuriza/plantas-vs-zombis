@@ -10,7 +10,12 @@ import java.util.HashMap;
 
 /**
  *
- * @author Usuario
+ * @author Miguel Y Ricardo
+ * 
+ */
+/**
+ * 
+ * Escribir las puntuaciones
  */
 public abstract class  Escritura {
     

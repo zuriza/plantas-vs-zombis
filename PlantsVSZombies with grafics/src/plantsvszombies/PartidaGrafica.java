@@ -12,7 +12,12 @@ import javax.swing.JLabel;
 
 /**
  *
- * @author Usuario
+ *@author Miguel Y Ricardo
+ * 
+ */
+/**
+ * 
+ * Intento de dibujar el juego graficamente
  */
 public class PartidaGrafica extends JFrame{
     

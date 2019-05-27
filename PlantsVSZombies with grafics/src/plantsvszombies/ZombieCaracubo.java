@@ -7,7 +7,12 @@ package plantsvszombies;
 
 /**
  *
- * @author Nur_z
+ * @author Miguel Y Ricardo
+ * 
+ */
+/**
+ * 
+ * descripción del zombi caracubo
  */
 public class ZombieCaracubo extends Zombies {
     public ZombieCaracubo(int x, int y){

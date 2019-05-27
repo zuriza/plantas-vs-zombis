@@ -7,7 +7,12 @@ package plantsvszombies;
 
 /**
  *
- * @author Nur_z
+ * @author Miguel Y Ricardo
+ * 
+ */
+/**
+ * 
+ *  descripcion de la nuez
  */
 public class Nuez extends Planta {
         /** el coste de la producción de una lanzaguisantes

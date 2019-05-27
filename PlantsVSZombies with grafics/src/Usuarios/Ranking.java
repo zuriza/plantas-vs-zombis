@@ -16,7 +16,12 @@ import javax.swing.JLabel;
 
 /**
  *
- * @author Usuario
+ * @author Miguel Y Ricardo
+ * 
+ */
+/**
+ * 
+ * Donde se crea la ventana de Ranking
  */
 public class Ranking extends JFrame{
     ArrayList<Usuario> usuarios_ord;

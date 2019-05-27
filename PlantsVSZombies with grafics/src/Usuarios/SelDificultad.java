@@ -17,7 +17,12 @@ import plantsvszombies.Tablero;
 
 /**
  *
- * @author Usuario
+ * @author Miguel Y Ricardo
+ * 
+ */
+/**
+ * 
+ * se crea la ventana de dificultad
  */
 public class SelDificultad extends JFrame{
     HashMap users;

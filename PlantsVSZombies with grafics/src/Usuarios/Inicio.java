@@ -12,7 +12,12 @@ import javax.swing.*;
 
 /**
  *
- * @author Usuario
+ * @author Miguel Y Ricardo
+ * 
+ */
+/**
+ * 
+ * Crear la ventana de inicio
  */
 public class Inicio extends JFrame{
         Usuario user;
@@ -48,7 +53,7 @@ public class Inicio extends JFrame{
      btnTgt.addActionListener(new ActionListener(){
             @Override
             public void actionPerformed(ActionEvent e){
-                TargetaUsuario tar=new TargetaUsuario(user);
+                TarjetaUsuario tar=new TarjetaUsuario(user);
             }
         });
      btnLista.addActionListener(new ActionListener(){
